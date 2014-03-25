@@ -1,0 +1,111 @@
+{{{include file="`$smarty.const.TEMPLATE`/header.tpl"
+title="`$ruRow.ru_file_name`" menu="0"}}}
+<h2>入力ファイル : ({{{$ruRow.ru_id}}}) {{{$ruRow.ru_file_name}}}</h2>
+  <div class="container">
+		<table>
+			<tr><td>ID</td><td>{{{$ruRow.ru_id}}}</td></tr>
+			<tr><td>計算ソフトウェア</td><td>{{{$ruRow.ru_software}}}</td></tr>
+			<tr><td>プロジェクト</td><td>{{{$ruRow.ru_project}}}</td></tr>
+			<tr><td>ファイル名</td><td>{{{$ruRow.ru_file_name}}}</td></tr>
+			<tr><td>開始日時</td><td>{{{$ruRow.ru_datetime|COMGetFormatDateTime}}}</td></tr>
+			<tr><td>終了/分割</td><td>{{{$enddi}}}/{{{$alldi}}}</td></tr>
+			<tr><td>経過CPU計算時間</td><td>{{{$passCpuTime|COMGetFormatSecond}}}</td></tr>
+			<tr><td>残りCPU計算時間</td>
+				<td>{{{$estimateCpuTime|COMGetFormatSecond}}}</td>
+			</tr>
+			<tr><td>平均計算時間</td><td>{{{$averageTime}}}s</td></tr>
+			<tr><td>経過時間</td><td>{{{$passTime|COMGetFormatSecond}}}</td></tr>
+			<tr><td>残り時間</td><td>{{{$estimateTime|COMGetFormatSecond}}}</td></tr>
+			<tr><td>終了予定日時</td><td>{{{$endDateTime|COMGetFormatDateTime}}}</td></tr>
+            <tr><td>総計算時間</td><td>{{{$allTime|COMGetFormatSecond}}}</td></tr>
+			<tr><td>&emsp;</td>
+				<td>
+					オリジナルrunファイルを<a href="show_original_script.php?id={{{$ruRow.ru_id}}}" target="_blank">表示</a>・<a href="download_original_script.php?id={{{$ruRow.ru_id}}}">ダウンロード</a>
+					&emsp;&emsp;&emsp;&emsp;
+					<a href="show_analyzed_script.php?id={{{$ruRow.ru_id}}}" target="_blank">解析済runファイルを表示</a>
+				</td>
+			</tr>
+		</table>
+	</div>
+
+    <div class="container">
+{{{$projectHtml}}}
+{{{*
+<form name="" method="post" action="maper_starter.php">
+			<table>
+				<tr>
+					<td>
+{{{if $maCount==0}}}
+	{{{if IsMaperRun()==true}}}
+						現在集計中です。
+	{{{else}}}
+		{{{foreach from=$varAry item=var}}}
+						<input type="checkbox" name="{{{$var[0]}}}" id="{{{$var[0]}}}" value="{{{$var[0]}}}" /> {{{$var[0]}}}&emsp;
+		{{{/foreach}}}
+						<input type="hidden" name="run" id="run" value="{{{$ruRow.ru_id}}}" />
+						<input type="submit" value="集計開始" />
+	{{{/if}}}
+{{{else}}}
+						<a href="map_show.php?run={{{$ruRow.ru_id}}}">集計結果を表示</a>
+{{{/if}}}
+					</td>
+				</tr>
+			</table>
+        </form>
+*}}}
+    </div>
+    
+    <div class="container">
+        <a href="show_data.php?run={{{$ruRow.ru_id}}}">出力ファイルを表示</a>
+    </div>
+
+{{{*
+	<div class="container">
+{{{if $prevOffset>=0}}}
+		<a href="run.php?run={{{$ru_id}}}&amp;offset={{{$prevOffset}}}">←</a>
+{{{/if}}}
+{{{foreach from=$linkOffsetAry item=linkOffset}}}
+	{{{if $linkOffset.offset==$offset}}}
+			<span class="current">{{{$linkOffset.page}}}</span>
+	{{{else}}}
+		<a href="run.php?run={{{$ru_id}}}&amp;offset={{{$linkOffset.offset}}}">{{{$linkOffset.page}}}</a>
+	{{{/if}}}
+{{{/foreach}}}
+{{{if $nextOffset<$alldi}}}
+		<a href="run.php?run={{{$ru_id}}}&amp;offset={{{$nextOffset}}}">→</a>
+{{{/if}}}
+		<table>
+			<th>No.<br />(ID)</th>
+			<th>変数</th>
+			<th>開始日時</th>
+			<th>終了日時</th>
+			<th>計算時間</th>
+			<th>出力ファイル</th>
+{{{foreach from=$diRow item=di}}}
+			<tr>
+                <td><a href="divided_run.php?run={{{$ruRow.ru_id}}}&di={{{$di.di_id}}}">{{{$di.no}}}<br />({{{$di.di_id}}})</a></td>
+				<td>{{{$di.di_variable}}}</td>
+				<td>{{{$di.di_start_datetime|COMGetFormatDateTime}}}</td>
+				<td>{{{$di.di_end_datetime|COMGetFormatDateTime}}}</td>
+				<td>{{{$di.di_calc_time|COMGetFormatSecond}}}</td>
+                <td>{{{if $di.di_end_datetime}}}<a href="download_outfile.php?di={{{$di.di_id}}}" target="_blank">ダウンロード</a>
+                    <br /><a href="show_outfile.php?di={{{$di.di_id}}}" target="_blank">表示</a>{{{/if}}}</td>
+			</tr>
+{{{/foreach}}}
+		</table>
+{{{if $prevOffset>=0}}}
+		<a href="run.php?run={{{$ru_id}}}&amp;offset={{{$prevOffset}}}">←</a>
+{{{/if}}}
+{{{foreach from=$linkOffsetAry item=linkOffset}}}
+	{{{if $linkOffset.offset==$offset}}}
+			<span class="current">{{{$linkOffset.page}}}</span>
+	{{{else}}}
+		<a href="run.php?run={{{$ru_id}}}&amp;offset={{{$linkOffset.offset}}}">{{{$linkOffset.page}}}</a>
+	{{{/if}}}
+{{{/foreach}}}
+{{{if $nextOffset<$alldi}}}
+		<a href="run.php?run={{{$ru_id}}}&amp;offset={{{$nextOffset}}}">→</a>
+{{{/if}}}
+	</div>
+*}}}
+{{{include file="`$smarty.const.TEMPLATE`/footer.tpl"}}}

@@ -1,0 +1,30 @@
+{{{include file="../../../templates/`$smarty.const.TEMPLATE`/header.tpl"
+    title="docking data show | `$ruRow.ru_file_name`" menu="0"}}}
+    {{{if $isFilename == false }}}
+    <div class="container">
+        <table>
+            <tr><th>設定エネルギー値以下で抜粋してダウンロード</th></tr>
+        <tr>
+            <td>
+                <form name="" method="get" action="docking_download_pdb.php">
+                    PDB File Prefix: <input type="text" name="pdbprefix" class="form-text" value="" /><br />
+                    Residue Name: <input type="text" name="resid" class="form-text" value="" /><br />
+                    Energy: <input type="text" name="ener" class="form-text" value="0" /><br />
+                    Energy File Name: <input type="text" name="enefile" class="form-text" value="" /><br />
+                    Energy Column: <input type="text" name="column" class="form-text" value="" /><br />
+                    <input type="hidden" name="run" id="run" value="{{{$ru_id}}}" />
+                    <input type="submit" value="ダウンロード" />
+                </form>
+            </td>
+        </tr>
+    </table>
+    </div>
+    {{{else}}}
+    <div class="script">
+		{{{$ou_file_name|escape|nl2br}}}
+    </div>
+    <div class="script">
+        {{{$ou_contents|escape|nl2br}}}
+    </div>
+    {{{/if}}}
+{{{include file="../../../templates/`$smarty.const.TEMPLATE`/footer.tpl"}}}

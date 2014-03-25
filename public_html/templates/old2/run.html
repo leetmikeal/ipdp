@@ -1,0 +1,115 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="Content-Language" content="ja" />
+<title>{{{$ruRow.ru_file_name}}}</title>
+<link href="{{{$template}}}main.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="wrapper">
+	<br />
+	<a href="/">TOP</a>
+
+	<div id="container">
+		<table>
+			<tr><td>ID</td><td>{{{$ruRow.ru_id}}}</td></tr>
+			<tr><td>ファイル名</td><td>{{{$ruRow.ru_file_name}}}</td></tr>
+			<tr><td>日時</td><td>{{{$ruRow.ru_datetime|COMGetFormatDateTime}}}</td></tr>
+			<tr><td>終了/分割</td><td>{{{$enddi}}}/{{{$alldi}}}</td></tr>
+			<tr><td>総計算時間</td><td>{{{$allTime|COMGetFormatSecond}}}</td></tr>
+			<tr><td>平均計算時間</td><td>{{{$averageTime}}}s</td></tr>
+			<tr><td>終了までの残り計算時間<br />（平均計算時間×残り）</td>
+				<td>{{{$estimateTime|COMGetFormatSecond}}}<br /> 
+					※計算が終了してから、次の計算に移るまでの時間を一秒として算出しています。
+				</td>
+			</tr>
+			<tr><td>終了まであと</td><td>{{{$nokoriKeikaTime|COMGetFormatSecond}}}</td></tr>
+			<tr><td>終了日時</td><td>{{{$endDateTime|COMGetFormatDateTime}}}</td></tr>
+			<tr><td>&emsp;</td>
+				<td>
+					オリジナルrunファイルを<a href="show_original_script.php?id={{{$ruRow.ru_id}}}" target="_blank">見る</a>・<a href="download_original_script.php?id={{{$ruRow.ru_id}}}">ダウンロードする</a>
+					&emsp;&emsp;&emsp;&emsp;
+					<a href="show_analyzed_script.php?id={{{$ruRow.ru_id}}}" target="_blank">解析済runファイルを見る</a>
+				</td>
+			</tr>
+		</table>
+		<br />
+		<form name="" method="post" action="maper_starter.php">
+			<table>
+				<tr>
+					<td>
+{{{if $maCount==0}}}
+	{{{if IsMaperRun()==true}}}
+						現在集計中です。
+	{{{else}}}
+		{{{foreach from=$varAry item=var}}}
+						<input type="checkbox" name="{{{$var[0]}}}" id="{{{$var[0]}}}" value="{{{$var[0]}}}" /> {{{$var[0]}}}&emsp;
+		{{{/foreach}}}
+						<input type="hidden" name="run" id="run" value="{{{$ruRow.ru_id}}}" />
+						<input type="submit" value="集計開始" />
+	{{{/if}}}
+{{{else}}}
+						<a href="map_show.php?run={{{$ruRow.ru_id}}}">集計結果を見る</a>
+{{{/if}}}
+					</td>
+				</tr>
+			</table>
+		</form>
+	</div>
+
+    <div id="container">
+        <a href="show_data.php?run={{{$ruRow.ru_id}}}" target="_blank">出力ファイルをみる</a>
+    </div>
+
+	<div id="container">
+{{{if $prevOffset>=0}}}
+		<a href="run.php?run={{{$ru_id}}}&amp;offset={{{$prevOffset}}}">←</a>
+{{{/if}}}
+{{{foreach from=$linkOffsetAry item=linkOffset}}}
+	{{{if $linkOffset.offset==$offset}}}
+			<span class="current">{{{$linkOffset.page}}}</span>
+	{{{else}}}
+		<a href="run.php?run={{{$ru_id}}}&amp;offset={{{$linkOffset.offset}}}">{{{$linkOffset.page}}}</a>
+	{{{/if}}}
+{{{/foreach}}}
+{{{if $nextOffset<$alldi}}}
+		<a href="run.php?run={{{$ru_id}}}&amp;offset={{{$nextOffset}}}">→</a>
+{{{/if}}}
+		<table>
+			<th>No.<br />(ID)</th>
+			<th>変数</th>
+			<th>開始日時</th>
+			<th>終了日時</th>
+			<th>計算時間</th>
+			<th>出力ファイル</th>
+{{{foreach from=$diRow item=di}}}
+			<tr>
+				<td><a href="divided_run.php?di={{{$di.di_id}}}" target="_blank">{{{$di.no}}}<br />({{{$di.di_id}}})</a></td>
+				<td>{{{$di.di_variable}}}</td>
+				<td>{{{$di.di_start_datetime|COMGetFormatDateTime}}}</td>
+				<td>{{{$di.di_end_datetime|COMGetFormatDateTime}}}</td>
+				<td>{{{$di.di_calc_time|COMGetFormatSecond}}}</td>
+                <td>{{{if $di.di_end_datetime}}}<a href="download_outfile.php?di={{{$di.di_id}}}" target="_blank">ダウンロード</a>
+                    <br /><a href="show_outfile.php?di={{{$di.di_id}}}" target="_blank">表示</a>{{{/if}}}</td>
+			</tr>
+{{{/foreach}}}
+		</table>
+{{{if $prevOffset>=0}}}
+		<a href="run.php?run={{{$ru_id}}}&amp;offset={{{$prevOffset}}}">←</a>
+{{{/if}}}
+{{{foreach from=$linkOffsetAry item=linkOffset}}}
+	{{{if $linkOffset.offset==$offset}}}
+			<span class="current">{{{$linkOffset.page}}}</span>
+	{{{else}}}
+		<a href="run.php?run={{{$ru_id}}}&amp;offset={{{$linkOffset.offset}}}">{{{$linkOffset.page}}}</a>
+	{{{/if}}}
+{{{/foreach}}}
+{{{if $nextOffset<$alldi}}}
+		<a href="run.php?run={{{$ru_id}}}&amp;offset={{{$nextOffset}}}">→</a>
+{{{/if}}}
+	</div>
+</div>
+</body>
+</html>
+

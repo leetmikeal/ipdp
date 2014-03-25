@@ -1,0 +1,56 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="Content-Language" content="ja" />
+<title></title>
+<link href="{{{$template}}}main.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="wrapper">
+	<div id="container">
+		<form name="" method="post" enctype="multipart/form-data" action="upload_script.php">
+			<p>RUN FILE:<input type="file" name="run_file" id="run_file" /></p>
+			<p><input type="submit" name="submit" id="submit" value="submit" /></p>
+		</form>
+	</div>
+
+	<div id="container">
+		<p>{{{$executerNum}}}つのプロセスが起動しています。</p>
+		<table>
+{{{foreach from=$executerAry item=executer}}}
+			<tr><td>{{{$executer}}}</td></tr>
+{{{/foreach}}}
+		</table>
+		<p>
+			<a href="executer_starter.php">プロセスを1つ起動する</a>
+{{{if $executerNum!=0}}}
+			&emsp;&emsp;&emsp;&emsp;<a href="executer_stoper.php">プロセスを1つ停止する</a>
+{{{/if}}}
+		</p>
+	</div>
+
+	<div id="container">
+		<a href="inputfile.php" target="_blank">入力ファイルをアップロード</a>
+	</div>
+
+	<div id="container">
+		<table>
+			<th>ID</th>
+			<th>ファイル名</th>
+			<th>日時</th>
+			<th>終了/分割</th>
+{{{foreach from=$ruAry item=ru}}}
+			<tr>
+				<td>{{{$ru.ru_id}}}</td>
+				<td><a href="run.php?run={{{$ru.ru_id}}}">{{{$ru.ru_file_name}}}</a></td>
+				<td>{{{$ru.ru_datetime|COMGetFormatDateTime}}}</td>
+				<td>{{{$ru.enddi}}}/{{{$ru.alldi}}}</td>
+			</tr>
+{{{/foreach}}}
+		</table>
+	</div>
+
+</div>
+</body>
+</html>

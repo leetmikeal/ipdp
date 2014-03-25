@@ -1,0 +1,77 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="Content-Language" content="ja" />
+<title></title>
+<link href="main.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="wrapper">
+	<br />
+	<a href="/">TOP</a>
+{{{if $error==true}}}
+	{{{$errorMsg}}}
+{{{else}}}
+	<div id="container">
+		入力ファイル
+		<table>
+{{{foreach from=$inputFileAry item=inputFile}}}
+			<tr>
+				<td>{{{$inputFile.file}}}</td>
+	{{{if $inputFileErrCount!=0}}}
+				<td>{{{$inputFile.err_msg}}}</td>
+	{{{/if}}}
+			</tr>
+{{{/foreach}}}
+		</table>
+{{{if $inputFileErrCount!=0}}}
+	<br />
+	<a href="inputfile.php" target="_blank">入力ファイルをアップロード</a>
+{{{/if}}}
+	</div>
+
+	<div id="container">
+		出力ファイル
+		<table>
+{{{foreach from=$ioFileAry.output item=outputFile}}}
+			<tr>
+				<td>{{{$outputFile}}}</td>
+			</tr>
+{{{/foreach}}}
+		</table>
+	</div>
+
+	<div id="container">
+		入出力ファイル
+		<table>
+{{{foreach from=$ioFileAry.io item=ioFile}}}
+			<tr>
+				<td>{{{$ioFile}}}</td>
+			</tr>
+{{{/foreach}}}
+		</table>
+	</div>
+	<div id="container">
+{{{if $inputFileErrCount==0}}}
+	<form name="" method="post" action="save_script.php">
+		<input type="hidden" name="file_name" id="file_name" value="{{{$fileName|escape}}}" />
+		<input type="hidden" name="run_file" id="run_file" value="{{{$file|escape}}}" />
+		<input type="submit" name="submit" id="submit" value="submit" />
+	</form>
+{{{else}}}
+	<form name="" method="post" action="upload_script.php">
+		<input type="hidden" name="file_name" id="file_name" value="{{{$fileName|escape}}}" />
+		<input type="hidden" name="run_file" id="run_file" value="{{{$file|escape}}}" />
+		<input type="submit" name="submit" id="submit" value="更新" />
+	</form>
+{{{/if}}}
+	</div>
+	<div id="script">
+		{{{$file|escape|nl2br}}}
+	</div>
+{{{/if}}}
+</div>
+</body>
+</html>
+

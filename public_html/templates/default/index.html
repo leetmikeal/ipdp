@@ -1,0 +1,35 @@
+{{{include file="`$smarty.const.TEMPLATE`/header.tpl" 
+title="`$smarty.const.SITE_TITLE`" menu="1"}}}
+	<div class="container">
+		<p>{{{$executerNum}}}つのプロセスが起動しています。</p>
+		<p>
+			<a href="executer_starter.php">プロセスを1つ起動する</a>
+{{{if $executerNum!=0}}}
+			&emsp;&emsp;&emsp;&emsp;<a href="executer_stoper.php">プロセスを1つ停止する</a>
+{{{/if}}}
+		</p>
+		<table>
+{{{foreach from=$executerAry item=executer}}}
+			<tr><td>{{{$executer}}}</td></tr>
+{{{/foreach}}}
+		</table>
+	</div>
+	<div class="container">
+		<table>
+			<th>ID</th>
+			<th>ファイル名 (プロジェクトの種類)</th>
+			<th>日時</th>
+			<th>終了/分割</th>
+			<th>DELETE</th>
+{{{foreach from=$ruAry item=ru}}}
+			<tr>
+				<td>{{{$ru.ru_id}}}</td>
+				<td><a href="run.php?run={{{$ru.ru_id}}}">{{{$ru.ru_file_name}}}</a>({{{$ru.ru_project}}})</td>
+				<td>{{{$ru.ru_datetime|COMGetFormatDateTime}}}</td>
+				<td>{{{$ru.enddi}}}{{{if $ru.runningdi != 0}}}({{{$ru.runningdi}}}){{{/if}}}/{{{$ru.alldi}}}</td>
+				<td><a href="delete.php?run={{{$ru.ru_id}}}&m=run">DELETE{{{$ru.ru_id}}}</a></td>
+			</tr>
+{{{/foreach}}}
+		</table>
+	</div>
+{{{include file="`$smarty.const.TEMPLATE`/footer.tpl"}}}

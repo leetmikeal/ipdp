@@ -1,0 +1,85 @@
+{{{include file="../../../templates/`$smarty.const.TEMPLATE`/header.tpl"
+    title="map show | `$ruRow.ru_file_name`" menu="0"}}}
+	<div class="container">
+		<table>
+			<tr><td>ID</td><td>{{{$ruRow.ru_id}}}</td></tr>
+			<tr><td>ファイル名</td><td>{{{$ruRow.ru_file_name}}}</td></tr>
+			<tr><td>日時</td><td>{{{$ruRow.ru_datetime|COMGetFormatDateTime}}}</td></tr>
+			<tr><td>終了/分割</td><td>{{{$enddi}}}/{{{$alldi}}}</td></tr>
+			<tr><td>総計算時間</td><td>{{{$allTime|COMGetFormatSecond}}}</td></tr>
+			<tr><td>平均計算時間</td><td>{{{$averageTime}}}s</td></tr>
+			<tr><td>終了までの残り計算時間<br />（平均計算時間×残り）</td>
+				<td>{{{$estimateTime|COMGetFormatSecond}}}<br /> 
+					※計算が終了してから、次の計算に移るまでの時間を一秒として算出しています。
+				</td>
+			</tr>
+			<tr><td>終了まであと</td><td>{{{$nokoriKeikaTime|COMGetFormatSecond}}}</td></tr>
+			<tr><td>終了日時</td><td>{{{$endDateTime|COMGetFormatDateTime}}}</td></tr>
+			<tr><td>&emsp;</td>
+				<td>
+					<a href="show_original_script.php?id={{{$ruRow.ru_id}}}" target="_blank">オリジナルrunファイルを見る</a>
+					&emsp;&emsp;&emsp;&emsp;
+					<a href="show_analyzed_script.php?id={{{$ruRow.ru_id}}}" target="_blank">解析済runファイルを見る</a>
+				</td>
+			</tr>
+		</table>
+    </div>
+    <div class="container" style="display:none;">
+    <br />
+		<form name="" method="post" action="maper_starter.php">
+			<table>
+				<tr>
+					<td>
+{{{if IsMaperRun()==true}}}
+					現在集計中です。
+{{{else}}}
+	{{{foreach from=$varAry item=var}}}
+						<input type="checkbox" name="{{{$var[0]}}}" id="{{{$var[0]}}}" value="{{{$var[0]}}}" /> {{{$var[0]}}}&emsp;
+	{{{/foreach}}}
+						<input type="hidden" name="run" id="run" value="{{{$ruRow.ru_id}}}" />
+						<input type="submit" value="再集計する" />
+{{{/if}}}
+					</td>
+				</tr>
+			</table>
+		</form>
+	</div>
+
+    <div class="container">
+        <h3>GNUPlotで描画</h3>
+        <a href="map_data.php?run={{{$ruRow.ru_id}}}&type=surface" target="_blank">Surface マップを表示</a><br />
+        <a href="map_data.php?run={{{$ruRow.ru_id}}}&type=contour" target="_blank">Contour マップを表示</a>
+    </div>
+
+    <div class="container">
+        <h3>ファイルダウンロード</h3>
+        データファイルとGNUPlotスクリプトファイルをダウンロードし、以下のコマンドを実行するとPNG形式の画像ファイルが作成されます。
+<pre>
+gnuplot [script_file]</pre>
+        デザインの変更やファイル形式の変更が必要な場合は、スクリプトファイルを書き換えてください。<br />
+        <a href="map_download.php?run={{{$ruRow.ru_id}}}&type=csv&form=1">データファイル</a><br />
+        <a href="map_gnuplot.php?run={{{$ruRow.ru_id}}}&type=surface">GNUPlot用スクリプト(Surafce)ファイル</a><br />
+        <a href="map_gnuplot.php?run={{{$ruRow.ru_id}}}&type=contour">GNUPlot用スクリプト(Contour)ファイル</a><br />
+        {{{*<a href="map_download.php?run={{{$ruRow.ru_id}}}&type=csv&form=1">リスト形式csvファイル</a><br />*}}}
+        {{{*<a href="map_download.php?run={{{$ruRow.ru_id}}}&type=csv&form=2">テーブル形式csvファイル</a>*}}}
+    </div>
+
+	<div class="container">
+        {{{* <a href="map_download.php?run={{{$ruRow.ru_id}}}">mapファイルダウンロード</a><br /> *}}}
+		<br />
+		<table>
+			<th>ID</th>
+			<th>変数</th>
+			<th>min</th>
+			<th>&emsp;</th>
+{{{foreach from=$diRow item=di}}}
+			<tr>
+				<td>{{{$di.di_id}}}</td>
+				<td>{{{$di.di_variable}}}</td>
+				<td>{{{$di.di_min}}}</td>
+                <td><a href="../../divided_run.php?run={{{$ruRow.ru_id}}}&di={{{$di.di_id}}}" target="_blank">このエネルギーを出した計算を見る</a></td>
+			</tr>
+{{{/foreach}}}
+		</table>
+	</div>
+{{{include file="../../../templates/`$smarty.const.TEMPLATE`/footer.tpl"}}}

@@ -1,0 +1,56 @@
+<?php
+
+$config = array();
+
+// DB Connection
+define('DB_HOST', 'localohst');
+define('DB_USER', 'postgres');
+define('DB_PASSWORD','postgres123');
+define('DB_NAME', 'ipdp');
+
+// Site URL
+define('SITE_HOST','localhost');
+define('SITE_URL','http://'.SITE_HOST.'/');
+//define('SITE_TITLE','Input File Preprocesser and Distributed Processing');
+define('SITE_TITLE','IPDP');
+define('FILE_HOST','http://'.DB_HOST.'/upload_outfile.php');
+
+// Folder 
+define('TEMPLATE','default');
+define('TEMPLATE_URL',SITE_URL.'templates'.DIRECTORY_SEPARATOR.TEMPLATE.DIRECTORY_SEPARATOR);
+
+// Software
+define('COMMAND_CHARMM','/usr/local/c34b1/exec/gnu/charmm');
+$software[0] = Array(
+    'name' => 'charmm',
+    'command' => '',
+    'project' => Array('map', 'docking')
+);
+
+
+
+// Copyright
+define('FOOTER_TEXT','Copyright(C) Ueda Laboratory, Yokohama National University');
+
+
+
+// Folder
+define('DIR_LIBRARY', 'library');
+define('DIR_PROJECT', 'projects');
+define('DIR_EXE', 'exe');
+define('DIR_OUT', 'out_files');
+define('DIR_DATA', 'data_files');
+define('DIR_SMARTY_TEMP', 'templates');
+define('DIR_SMARTY_CASH', 'templates_c');
+define('DIR_BASE', '/home/tamaki/ipdp/public_html/');
+
+/*
+ * define('library']     = "library";
+define('out']         = "out_files";
+define('exe']         = "exe";
+define('plugin']      = "plugins";
+define('temp']        = "data_files";
+define('template']    = "templates";
+define('smarty_cash'] = "templates_c";
+ */
+?>

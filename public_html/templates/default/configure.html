@@ -1,0 +1,44 @@
+{{{include file="`$smarty.const.TEMPLATE`/header.tpl" 
+    title="Input File Preprocesser and Distributed Processing" menu="4"}}}
+    <h2>環境設定</h2>
+    <div class="container">
+        <table>
+            <tr>
+                <th>Database host</th>
+                <td>{{{$smarty.const.DB_HOST}}}</td>
+            </tr>
+            <tr>
+                <th>Database name</th>
+                <td>{{{$smarty.const.DB_NAME}}}</td>
+            </tr>
+        </table>
+    </div>
+    <div class="container">
+        <table>
+             <tr>
+                <th>Site host name</th>
+                <td>{{{$smarty.const.SITE_HOST}}}</td>
+            </tr>
+            <tr>
+                <th>Site top URL</th>
+                <td>{{{$smarty.const.SITE_URL}}}</td>
+            </tr>
+            <tr>
+                <th>Template name</th>
+                <td>{{{$smarty.const.TEMPLATE}}}</td>
+            </tr>
+            <tr>
+                <th>Footer text</th>
+                <td>{{{$smarty.const.FOOTER_TEXT}}}</td>
+            </tr>
+        </table>
+    </div>
+    <div class="container">
+        <table>
+             <tr>
+                <th>Charmm command</th>
+                <td>{{{$smarty.const.COMMAND_CHARMM}}}</td>
+            </tr>
+        </table>
+    </div>
+{{{include file="`$smarty.const.TEMPLATE`/footer.tpl"}}}

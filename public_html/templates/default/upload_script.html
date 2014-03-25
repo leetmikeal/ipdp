@@ -1,0 +1,77 @@
+{{{include file="`$smarty.const.TEMPLATE`/header.tpl"
+    title="Upload Script" menu="0"}}}
+{{{if $error==true}}}
+	{{{$errorMsg}}}
+{{{else}}}
+
+{{{if $inputFileErrCount==0}}}
+	<div class="container">
+	<form name="" method="post" action="save_script.php">
+        プロジェクトの選択
+        <select name="project">
+        {{{foreach from=$project item=value}}}
+            <option value="{{{$value}}}">{{{$value}}}</option>    
+        {{{/foreach}}}
+        </select><br />
+    <input type="checkbox" name="no_out" id="no_out" value="no_out" />標準出力を保存しない<br />
+		<input type="hidden" name="file_name" id="file_name" value="{{{$fileName|escape}}}" />
+		<input type="hidden" name="run_file" id="run_file" value="{{{$file|escape}}}" />
+        <input type="hidden" name="software" id="software" value="{{{$cu_software}}}" />
+		<input type="submit" name="submit" id="submit" value="submit" />
+	</form>
+	</div>
+{{{else}}}
+	<div class="container">
+	<form name="" method="post" action="upload_script.php">
+		<input type="hidden" name="file_name" id="file_name" value="{{{$fileName|escape}}}" />
+        <input type="hidden" name="run_file" id="run_file" value="{{{$file|escape}}}" />
+        <input type="hidden" name="software" id="software" value="{{{$cu_software}}}" />
+        <input type="submit" name="submit" id="submit" value="更新" />
+	</form>
+	</div>
+{{{/if}}}
+
+	<div class="container">
+		入力ファイル
+        <table>
+{{{foreach from=$inputFileAry item=inputFile}}}
+			<tr>
+				<td>{{{$inputFile.file}}}</td>
+	{{{if $inputFileErrCount!=0}}}
+				<td>{{{$inputFile.err_msg}}}</td>
+	{{{/if}}}
+			</tr>
+{{{/foreach}}}
+		</table>
+{{{if $inputFileErrCount!=0}}}
+	<br />
+	<a href="inputfile.php" target="_blank">入力ファイルをアップロード</a>
+{{{/if}}}
+	</div>
+
+	<div class="container">
+		出力ファイル
+		<table>
+{{{foreach from=$ioFileAry.output item=outputFile}}}
+			<tr>
+				<td>{{{$outputFile}}}</td>
+			</tr>
+{{{/foreach}}}
+		</table>
+	</div>
+
+	<div class="container">
+		入力ファイル
+		<table>
+{{{foreach from=$ioFileAry.io item=ioFile}}}
+			<tr>
+				<td>{{{$ioFile}}}</td>
+			</tr>
+{{{/foreach}}}
+		</table>
+	</div>
+	<div class="script">
+		{{{$file|escape|nl2br}}}
+	</div>
+{{{/if}}}
+{{{include file="`$smarty.const.TEMPLATE`/footer.tpl"}}}

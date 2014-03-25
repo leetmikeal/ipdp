@@ -1,0 +1,72 @@
+<?php
+
+// include path設定
+set_include_path(get_include_path().PATH_SEPARATOR.'../../library');
+set_include_path(get_include_path().PATH_SEPARATOR.'../../config');
+
+// 共通関数読み込み
+include_once('Common.php');
+
+// DB接続
+$db = DbManager::getConnection();
+
+$ru_id = 0;
+if(isset($_GET['run']) === true) { $ru_id = intval($_GET['run']); }
+
+$filetype = 'csv';
+if(isset($_GET['type']) === true) { $filetype = htmlentities($_GET['type'], ENT_QUOTES); }
+
+$fileformat = 0;
+if(isset($_GET['form']) === true) { $fileformat = intval($_GET['form']); }
+
+$sql = 'SELECT ru_id, ru_file_name, ru_datetime FROM run WHERE ru_id ='.$ru_id;
+$ruRow = $db->fetchRow($sql);
+if($ruRow !== false)
+{
+	$str = '';
+
+  $sql = 'SELECT di_id, di_variable, di_min FROM divided_run WHERE di_ru_id = '.$ru_id.'ORDER BY di_id ASC';
+  $diRow = $db->fetchAll($sql);
+
+  for($i = 0; $i < count($diRow); $i++) {
+    $varAry = SpritVariable($diRow[$i]['di_variable']);
+    if(count($varAry) != 2) break;
+
+    $str .= $varAry[0][1].','.$varAry[1][1].','.$diRow[$i]['di_min']."\n";
+    
+  }
+
+	/*$sql = 'SELECT * FROM map WHERE ma_ru_id ='.$ru_id.' ORDER BY ma_id ASC';
+	$maRow = $db->fetchAll($sql);
+	if($maRow === false)
+	{
+		$maRow = array();
+	}
+
+	for($i = 0; $i < count($maRow); $i++)
+	{
+		$varAry = SpritVariable($maRow[$i]['ma_variable']);
+		if($i == 0)
+		{
+			for($k = 0; $k < count($varAry); $k++)
+			{
+				$str .= $varAry[$k][0].',';
+			}
+
+			$str .= 'min'."\n";
+		}
+
+		for($k = 0; $k < count($varAry); $k++)
+		{
+			$str .= $varAry[$k][1].',';
+		}
+
+		$str .= $maRow[$i]['ma_min']."\n";
+	}
+  */
+
+	header('Content-Disposition: attachment; filename="'.$ruRow['ru_file_name'].'.log"');
+	header('Content-Type: text/plain');
+	echo($str);
+}
+

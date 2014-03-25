@@ -1,0 +1,41 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="Content-Language" content="ja" />
+<title>{{{$row.di_id}}}</title>
+<link href="main.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="wrapper">
+	<div id="container">
+		<table>
+			<tr><td>ID</td><td>{{{$row.di_id}}}</td></tr>
+			<tr><td>開始日時</td><td>{{{$row.di_start_datetime|COMGetFormatDateTime}}}</td></tr>
+			<tr><td>終了日時</td><td>{{{$row.di_end_datetime|COMGetFormatDateTime}}}</td></tr>
+			<tr><td>計算時間</td><td>{{{$row.di_calc_time|COMGetFormatSecond}}}</td></tr>
+			<tr><td>変数</td><td>{{{$row.di_variable}}}</td></tr>
+            <tr><td>min</td><td>{{{$row.di_min}}}</td></tr>
+            {{{if $row.di_end_datetime}}}
+            <tr><td>出力ファイル</td><td><a href="download_outfile.php?di={{{$row.di_id}}}" target="_blank">ダウンロード</a>
+                    <br /><a href="show_outfile.php?di={{{$di.di_id}}}" target="_blank">表示</a></td></tr>
+            {{{/if}}}
+		</table>
+	</div>
+
+	<div id="script">
+		{{{$row.di_dat|escape|nl2br}}}
+	</div>
+
+	<div id="script">
+		{{{$row.di_pdb|escape|nl2br}}}
+	</div>
+
+	<div id="script">
+		{{{$script|escape|nl2br}}}
+	</div>
+
+</div>
+</body>
+</html>
+

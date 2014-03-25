@@ -1,0 +1,77 @@
+{{{include file="../../../templates/`$smarty.const.TEMPLATE`/header.tpl"
+    title="docking data show | `$ruRow.ru_file_name`" menu="0"}}}
+    <h2>出力ファイルを選択して集計を開始</h2>
+    {{{if $showMode == false }}}
+    {{{if $fileTypeFlag == true}}}
+    <div class="container">
+    {{{if $ou_file_names|@count gt 0}}}
+        <table>
+            <tr><th>出力ファイルの一覧</th><th>分割数</th><th>集計</th></tr>
+        {{{foreach from=$ou_file_names item=file}}}
+        <tr>
+            <td>{{{$file.name}}}<br /><a href="map_select.php?run={{{$ru_id}}}&type={{{$fileType}}}&filename={{{$file.name}}}">プレビュー</a></td>
+            <td>{{{$file.count}}}</a></td>
+            <td>
+              <form method="get" action="map_starter.php">
+              Energy Column (0 start): <input type="text" name="column" id="column" value="10">
+              <input type="hidden" name="file" id="file" value="{{{$file.name}}}" />
+              <input type="hidden" name="run" id="run" value="{{{$ru_id}}}" />
+              <input type="submit" value="集計開始" />
+              </form>
+            </td>
+        </tr>
+        <tr>
+          <td colspan="4" class="script">{{{$file.contents|escape|nl2br}}}</td>
+        </tr>
+    {{{/foreach}}}
+    </table>
+    {{{else}}}
+    この拡張子を持つ重複したファイル名の出力ファイルが見つかりませんでした。<br />
+    別の拡張子を選択してください。<br />
+    <a href="map_select.php?run={{{$ru_id}}}">＜戻る</a>
+    {{{/if}}}
+    {{{*
+    <table>
+        <tr><th>出力ファイルの一覧</th><th>分割数</th><th>すべての分割ファイルを一括でダウンロード</th></tr>
+        {{{foreach from=$ou_file_names item=file}}}
+        <tr>
+            <td><a href="../../download_data.php?run={{{$ru_id}}}&filename={{{$file.name}}}">{{{$file.name}}}</a></td>
+            <td>{{{$file.count}}}</td>
+            <td><a href="../../download_data.php?run={{{$ru_id}}}&filename={{{$file.name}}}">ダウンロードする</a></td>
+        </tr>
+        {{{/foreach}}}
+    </table>
+    *}}}
+    </div>
+    {{{else}}}
+    <div class="container">
+        <table>
+            <tr><th>拡張子一覧</th></tr>
+            {{{foreach from=$fileExtArray key=ext item=count}}}
+            <tr><td><a href="map_select.php?run={{{$ru_id}}}&type={{{$ext}}}">{{{$ext}}}({{{$count}}})</a></td></tr>
+            {{{/foreach}}}
+        </table>
+    </div>
+    {{{*
+    <div class="container">
+        <table>
+            <tr><th>出力ファイルの一覧</th></tr>
+        {{{foreach from=$ou_file_names item=file}}}
+        <tr>
+            <td><a href="download_data.php?run={{{$ru_id}}}&filename={{{$file.name}}}">{{{$file.name}}}</a></td>
+        </tr>
+    {{{/foreach}}}
+        </table>
+    </div>
+    *}}}
+        {{{/if}}}
+    {{{else}}}
+    <div class="script">
+    {{{$ou_file_name|escape|nl2br}}}
+    </div>
+    <div class="script">
+        {{{$ou_contents|escape|nl2br}}}
+    </div>
+    {{{/if}}}
+{{{include file="../../../templates/`$smarty.const.TEMPLATE`/footer.tpl"}}}
+

@@ -1,0 +1,79 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="Content-Language" content="ja" />
+<title>{{{$ruRow.ru_file_name}}}</title>
+<link href="main.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="wrapper">
+	<br />
+	<a href="/">TOP</a>
+
+	<div id="container">
+		<table>
+			<tr><td>ID</td><td>{{{$ruRow.ru_id}}}</td></tr>
+			<tr><td>ファイル名</td><td>{{{$ruRow.ru_file_name}}}</td></tr>
+			<tr><td>日時</td><td>{{{$ruRow.ru_datetime|COMGetFormatDateTime}}}</td></tr>
+			<tr><td>終了/分割</td><td>{{{$enddi}}}/{{{$alldi}}}</td></tr>
+			<tr><td>総計算時間</td><td>{{{$allTime|COMGetFormatSecond}}}</td></tr>
+			<tr><td>平均計算時間</td><td>{{{$averageTime}}}s</td></tr>
+			<tr><td>終了までの残り計算時間<br />（平均計算時間×残り）</td>
+				<td>{{{$estimateTime|COMGetFormatSecond}}}<br /> 
+					※計算が終了してから、次の計算に移るまでの時間を一秒として算出しています。
+				</td>
+			</tr>
+			<tr><td>終了まであと</td><td>{{{$nokoriKeikaTime|COMGetFormatSecond}}}</td></tr>
+			<tr><td>終了日時</td><td>{{{$endDateTime|COMGetFormatDateTime}}}</td></tr>
+			<tr><td>&emsp;</td>
+				<td>
+					<a href="show_original_script.php?id={{{$ruRow.ru_id}}}" target="_blank">オリジナルrunファイルを見る</a>
+					&emsp;&emsp;&emsp;&emsp;
+					<a href="show_analyzed_script.php?id={{{$ruRow.ru_id}}}" target="_blank">解析済runファイルを見る</a>
+				</td>
+			</tr>
+		</table>
+		<br />
+		<form name="" method="post" action="maper_starter.php">
+			<table>
+				<tr>
+					<td>
+{{{if IsMaperRun()==true}}}
+					現在集計中です。
+{{{else}}}
+	{{{foreach from=$varAry item=var}}}
+						<input type="checkbox" name="{{{$var[0]}}}" id="{{{$var[0]}}}" value="{{{$var[0]}}}" /> {{{$var[0]}}}&emsp;
+	{{{/foreach}}}
+						<input type="hidden" name="run" id="run" value="{{{$ruRow.ru_id}}}" />
+						<input type="submit" value="再集計する" />
+{{{/if}}}
+					</td>
+				</tr>
+			</table>
+		</form>
+	</div>
+
+	<div id="container">
+		<a href="map_download.php?run={{{$ruRow.ru_id}}}">mapファイルダウンロード</a><br />
+		<br />
+		<table>
+			<th>ID</th>
+			<th>変数</th>
+			<th>min</th>
+			<th>&emsp;</th>
+{{{foreach from=$maRow item=ma}}}
+			<tr>
+				<td>{{{$ma.ma_id}}}</td>
+				<td>{{{$ma.ma_variable}}}</td>
+				<td>{{{$ma.ma_min}}}</td>
+				<td><a href="divided_run.php?di={{{$ma.ma_di_id}}}" target="_blank">このエネルギーを出した計算を見る</a></td>
+			</tr>
+{{{/foreach}}}
+		</table>
+	</div>
+
+</div>
+</body>
+</html>
+

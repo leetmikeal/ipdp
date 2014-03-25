@@ -1,0 +1,21 @@
+{{{include file="../../../templates/`$smarty.const.TEMPLATE`/header.tpl"
+    title="docking data show | `$ruRow.ru_file_name`" menu="0"}}}
+    {{{if $showMode == false }}}
+    <div class="container">
+        <table>
+            <tr><th>出力ファイルの一覧</th></tr>
+		{{{foreach from=$ou_file_names item=file_name}}}
+        <tr><td><a href="../../download_data.php?run={{{$ru_id}}}&filename={{{$file_name}}}">{{{$file_name}}}</a></td></tr>
+		{{{/foreach}}}
+        </table>
+    </div>
+    {{{else}}}
+    <div class="script">
+		{{{$ou_file_name|escape|nl2br}}}
+    </div>
+    <div class="script">
+        {{{$ou_contents|escape|nl2br}}}
+    </div>
+    {{{/if}}}
+{{{include file="../../../templates/`$smarty.const.TEMPLATE`/footer.tpl"}}}
+

@@ -1,0 +1,50 @@
+{{{include file="../../../templates/`$smarty.const.TEMPLATE`/header.tpl"
+    title="docking data show | `$ruRow.ru_file_name`" menu="0"}}}
+    <h2>分割保存された出力ファイルを一括で取得</h2>
+    {{{if $showMode == false }}}
+    {{{if $fileTypeFlag == true}}}
+    <div class="container">
+    <table>
+        <tr><th>出力ファイルの一覧</th><th>分割数</th><th>すべての分割ファイルを一括でダウンロード</th></tr>
+        {{{foreach from=$ou_file_names item=file}}}
+        <tr>
+            <td><a href="../../download_data.php?run={{{$ru_id}}}&filename={{{$file.name}}}">{{{$file.name}}}</a></td>
+            <td>{{{$file.count}}}</td>
+            <td><a href="../../download_data.php?run={{{$ru_id}}}&filename={{{$file.name}}}">ダウンロードする</a></td>
+        </tr>
+        {{{/foreach}}}
+    </table>
+    </div>
+    {{{else}}}
+    <div class="container">
+    ダウンロードしたいファイルの拡張子を選択してください。
+        <table>
+            <tr><th>拡張子一覧</th></tr>
+            {{{foreach from=$fileExtArray key=ext item=count}}}
+            <tr><td><a href="map_showdata.php?run={{{$ru_id}}}&type={{{$ext}}}">{{{$ext}}}({{{$count}}})</a></td></tr>
+            {{{/foreach}}}
+        </table>
+    </div>
+    {{{*
+    <div class="container">
+        <table>
+            <tr><th>出力ファイルの一覧</th></tr>
+        {{{foreach from=$ou_file_names item=file}}}
+        <tr>
+            <td><a href="download_data.php?run={{{$ru_id}}}&filename={{{$file.name}}}">{{{$file.name}}}</a></td>
+        </tr>
+    {{{/foreach}}}
+        </table>
+    </div>
+    *}}}
+        {{{/if}}}
+    {{{else}}}
+    <div class="script">
+    {{{$ou_file_name|escape|nl2br}}}
+    </div>
+    <div class="script">
+        {{{$ou_contents|escape|nl2br}}}
+    </div>
+    {{{/if}}}
+{{{include file="../../../templates/`$smarty.const.TEMPLATE`/footer.tpl"}}}
+

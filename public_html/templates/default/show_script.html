@@ -1,0 +1,10 @@
+{{{include file="`$smarty.const.TEMPLATE`/header.tpl"
+title="`$file_name` | Script" menu="0"}}}
+<h2>スクリプト</h2>
+    <div class="script">
+        {{{* $script|escape|nl2br *}}}
+       <pre>
+           {{{$script}}}
+       </pre>
+    </div>
+{{{include file="`$smarty.const.TEMPLATE`/footer.tpl"}}}

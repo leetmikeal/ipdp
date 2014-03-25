@@ -1,0 +1,24 @@
+{{{include file="`$smarty.const.TEMPLATE`/header.tpl"
+    title="Input File" menu="3"}}}
+    <h2>入力ファイル</h2>
+	<div class="container">
+		<p>{{{$errorMsg}}}</p>
+		<form name="" method="post" enctype="multipart/form-data" action="inputfile.php">
+			<p>INPUT FILE:<input type="file" name="input_file" id="input_file" /></p>
+			<p><input type="submit" name="submit" id="submit" value="submit" /></p>
+		</form>
+	</div>
+
+	<div class="container">
+		<table>
+			<th>ID</th>
+			<th>ファイル名</th>
+{{{foreach from=$inAry item=in}}}
+			<tr>
+				<td>{{{$in.in_id}}}</td>
+                <td><a href="download_inputfile.php?filename={{{$in.in_file_name}}}">{{{$in.in_file_name}}}</a></td>
+			</tr>
+{{{/foreach}}}
+		</table>
+    </div>
+{{{include file="`$smarty.const.TEMPLATE`/footer.tpl"}}}

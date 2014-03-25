@@ -1,0 +1,42 @@
+{{{include file="`$smarty.const.TEMPLATE`/header.tpl"
+    title="`$row.di_id`" menu="0"}}}
+    <span><a href="run.php?run={{{$ruRow.ru_id}}}">&#171 ({{{$ruRow.ru_id}}}) {{{$ruRow.ru_file_name}}}</a></span>
+    <h2>分割ファイル : ({{{$row.di_id}}}) {{{$row.di_variable}}}</h2>
+	<div class="container">
+		<table>
+			<tr><th>ID</th><td>{{{$row.di_id}}}</td></tr>
+			<tr><th>開始日時</th><td>{{{$row.di_start_datetime|COMGetFormatDateTime}}}</td></tr>
+			<tr><th>終了日時</th><td>{{{$row.di_end_datetime|COMGetFormatDateTime}}}</td></tr>
+			<tr><th>計算時間</th><td>{{{$row.di_calc_time|COMGetFormatSecond}}}</td></tr>
+			<tr><th>変数</th><td>{{{$row.di_variable}}}</td></tr>
+            <tr><th>min</th><td>{{{$row.di_min}}}</td></tr>
+            {{{if $row.di_end_datetime}}}
+            <tr><th>出力ファイル</th><td><a href="download_outfile.php?di={{{$row.di_id}}}" target="_blank">ダウンロード</a>
+                    <br /><a href="show_outfile.php?di={{{$row.di_id}}}" target="_blank">表示</a></td></tr>
+            {{{/if}}}
+		</table>
+	</div>
+
+	<div class="container">
+		<table>
+			<th>分割出力ファイル</th>
+{{{foreach from=$outRow item=out}}}
+			<tr>
+                <td><a href="download_data.php?run={{{$row.di_ru_id}}}&di={{{$row.di_id}}}&filename={{{$out.ou_file_name}}}">{{{$out.ou_file_name}}}</a></td>
+			</tr>
+{{{/foreach}}}
+		</table>
+    </div>
+
+	<div class="script">
+		{{{$row.di_dat|escape|nl2br}}}
+	</div>
+
+	<div class="script">
+		{{{$row.di_pdb|escape|nl2br}}}
+	</div>
+
+	<div class="script">
+		{{{$script|escape|nl2br}}}
+	</div>
+{{{include file="`$smarty.const.TEMPLATE`/footer.tpl"}}}    

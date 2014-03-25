@@ -1,0 +1,18 @@
+{{{include file="`$smarty.const.TEMPLATE`/header.tpl" 
+    title="Input File Preprocesser and Distributed Processing" menu="2"}}}
+    <h2>新規プロジェクト</h2>
+    <div class="container">
+        <form name="" method="post" enctype="multipart/form-data" action="upload_script.php">
+            <p>計算ソフトウェア:<select name="software" size="1">
+                {{{foreach from=$software item=value}}}
+                    <option value="{{{$value.name}}}">{{{$value.name}}}</option>
+                {{{/foreach}}}
+            </select></p>
+			<p>RUN FILE:<input type="file" name="run_file" id="run_file" /></p>
+			<p><input type="submit" name="submit" id="submit" value="submit" /></p>
+		</form>
+	</div>
+	<div class="container">
+		<a href="inputfile.php">入力ファイルをアップロード</a>
+	</div>
+{{{include file="`$smarty.const.TEMPLATE`/footer.tpl"}}}
